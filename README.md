@@ -2,9 +2,8 @@
 
 ```
 event-ticketing-system
-|
+├───.venv/
 ├───src
-|   |
 │   ├───application
 │   │   ├───commandHandlers
 │   │   ├───commands
@@ -12,7 +11,6 @@ event-ticketing-system
 │   │   ├───interfaces
 │   │   ├───queries
 │   │   └───queryHandlers
-|   |
 │   ├───domain
 │   │   ├───aggregates
 │   │   ├───entities
@@ -21,17 +19,14 @@ event-ticketing-system
 │   │   ├───repositories
 │   │   ├───services
 │   │   └───valueObjects
-|   |
 │   ├───infrastructure
 │   │   ├───database
 │   │   │   ├───migrations
 │   │   │   ├───models
 │   │   │   └───repositories
 │   │   └───services
-|   |
 │   └───presentation
-│       ├───api
-│       └───schemas
+│       └───api
 └───test
     └───domain
 ```
