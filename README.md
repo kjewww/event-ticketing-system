@@ -95,7 +95,39 @@ event-ticketing-system
 
 ## 3. Domain Model Draft
 
+### 1. Aggregates & Entities
 
+**Event Aggregate**
+* **`Event` (Aggregate Root)**
+  * **Attributes:** `id`, `name`, `description`, `location`, `schedule` (EventSchedule), `maxCapacity`, `status` (Draft, Published, Cancelled, Completed)
+  * **Relationships:** Manages a collection of `TicketCategory` entities.
+* **`TicketCategory` (Entity)**
+  * **Attributes:** `id`, `eventId`, `name`, `price` (Money), `quota`, `salesPeriod` (SalesPeriod), `isActive`
+
+**Booking Aggregate**
+* **`Booking` (Aggregate Root)**
+  * **Attributes:** `id`, `eventId`, `customerId`, `ticketQuantity`, `totalPrice` (Money), `paymentDeadline`, `status` (PendingPayment, Paid, Expired, Refunded)
+  * **Relationships:** Generates and manages a collection of `Ticket` entities upon payment.
+* **`Ticket` (Entity)**
+  * **Attributes:** `id`, `code` (TicketCode), `eventId`, `bookingId`, `status` (Active, CheckedIn, Cancelled, RefundRequired)
+
+**Refund Aggregate**
+* **`Refund` (Aggregate Root)**
+  * **Attributes:** `id`, `bookingId`, `amount` (Money), `rejectionReason`, `paymentReference`, `status` (Requested, Approved, Rejected, PaidOut)
+
+### 2. Value Objects
+
+* **`Money`:** Encapsulates a numeric amount and currency (used for ticket prices and total booking prices).
+* **`TicketCode`:** A securely generated, unique string used for validating event entry.
+* **`EventSchedule`:** Contains the `startDate` and `endDate` of an event.
+* **`SalesPeriod`:** Contains the `startDate` and `endDate` for when a ticket category is available for purchase.
+
+### 3. Domain Events
+
+* **Event Management:** `EventCreated`, `EventPublished`, `EventCancelled`
+* **Ticket Category Management:** `TicketCategoryCreated`, `TicketCategoryDisabled`
+* **Booking & Ticket Management:** `TicketReserved`, `BookingPaid`, `BookingExpired`, `TicketCheckedIn`
+* **Refund Management:** `RefundRequested`, `RefundApproved`, `RefundRejected`, `RefundPaidOut`
 
 ## 4. Ubiquitous Language Glossary
 
