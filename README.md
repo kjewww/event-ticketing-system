@@ -27,7 +27,7 @@ event-ticketing-system
 │   │   │   ├───migrations
 │   │   │   ├───models
 │   │   │   └───repositories
-│   │   └───externalServices
+│   │   └───services
 |   |
 │   └───presentation
 │       ├───api
