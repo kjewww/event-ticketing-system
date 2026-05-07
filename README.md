@@ -33,6 +33,7 @@ event-ticketing-system
 │       ├───api
 │       └───schemas
 └───test
+    └───domain
 ```
 
 ## 2. Business Rules
