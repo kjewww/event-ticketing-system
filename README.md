@@ -2,7 +2,11 @@
 
 ```
 event-ticketing-system
-├───.venv/
+├───.gitignore
+├───.python-version
+├───README.md
+├───pyproject.toml
+├───uv.lock
 ├───src
 │   ├───application
 │   │   ├───commandHandlers
@@ -26,6 +30,7 @@ event-ticketing-system
 │   │   │   └───repositories
 │   │   └───services
 │   └───presentation
+│       ├───main.py
 │       └───api
 └───test
     └───domain
