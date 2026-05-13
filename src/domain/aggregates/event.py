@@ -32,20 +32,31 @@ class Event:
         self.capacity = capacity
         self.status = EventStatus.DRAFT
         
+        self.ticket_categories = []
         self.domain_events = []
         self.domain_events.append(EventCreated(self.id))
         
-        self.ticket_categories = []
-        
-        def publish():
-            if self.status != EventStatus.DRAFT:
-                raise ValueError("only draft event can be published")
-            self.status = EventStatus.PUBLISHED
             
-            self.domain_events.append(EventPublished(self.id))
+    def add_ticket_category(self, category: "TicketCategory"):
+            # Aturan Bisnis: Cek apakah penambahan kategori ini melebihi kapasitas event
+            current_total_quota = sum(c.quota for c in self.ticket_categories)
+            if current_total_quota + category.quota > self.capacity:
+                raise ValueError(f"Total quota ({current_total_quota + category.quota}) exceeds event capacity ({self.capacity})")
+            
+            self.ticket_categories.append(category)
+    
+    def publish(self):
+        if self.status != EventStatus.DRAFT:
+            raise ValueError("only draft event can be published")
+        self.status = EventStatus.PUBLISHED
         
-        def cancel():
-            self.status = EventStatus.CANCELLED
-            self.domain_events.append(EventCancelled(self.id))
+        if not self.ticket_categories:
+            raise ValueError("Cannot publish event without at least one ticket category")
+        
+        self.domain_events.append(EventPublished(self.id))
+    
+    def cancel(self):
+        self.status = EventStatus.CANCELLED
+        self.domain_events.append(EventCancelled(self.id))
         
         
