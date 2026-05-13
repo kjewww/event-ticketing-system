@@ -8,7 +8,7 @@ class Money:
         currency: str = "IDR"
     ):
         
-        if amount <= 0:
+        if amount < 0:
             raise ValueError("Amount cannot be negative.")
         
         self.amount = amount
