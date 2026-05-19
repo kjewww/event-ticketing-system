@@ -16,7 +16,7 @@ class BookingRepository(ABC):
     @abstractmethod
     def has_active_booking_for_event(
         self,
-        customer_id: str,
+        customer_id: UUID,
         event_id: UUID,
     ) -> bool:
         pass
