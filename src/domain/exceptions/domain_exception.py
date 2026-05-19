@@ -59,3 +59,14 @@ class EventTicketCategoryQuotaExceededError(DomainException):
 
 class EventTicketCategoryNotAllowedError(DomainException):
     pass
+
+class InvalidTicketCategoryNameError(DomainException):
+    pass
+
+
+class InvalidTicketCategoryQuotaError(DomainException):
+    pass
+
+
+class TicketCategoryAlreadyDisabledError(DomainException):
+    pass
