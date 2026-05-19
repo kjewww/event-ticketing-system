@@ -12,7 +12,7 @@ class RefundRequested:
         customer_id: UUID,
         amount: Money,
     ):
-        self.event_id = uuid4()
+        self.id = uuid4()
         self.occurred_at = datetime.now(timezone.utc)
 
         self.refund_id = refund_id
@@ -29,7 +29,7 @@ class RefundApproved:
         customer_id: UUID,
         amount: Money,
     ):
-        self.event_id = uuid4()
+        self.id = uuid4()
         self.occurred_at = datetime.now(timezone.utc)
 
         self.refund_id = refund_id
@@ -46,7 +46,7 @@ class RefundRejected:
         customer_id: UUID,
         rejection_reason: str,
     ):
-        self.event_id = uuid4()
+        self.id = uuid4()
         self.occurred_at = datetime.now(timezone.utc)
 
         self.refund_id = refund_id
@@ -63,7 +63,7 @@ class RefundPaidOut:
         customer_id: UUID,
         payment_reference: str,
     ):
-        self.event_id = uuid4()
+        self.id = uuid4()
         self.occurred_at = datetime.now(timezone.utc)
 
         self.refund_id = refund_id

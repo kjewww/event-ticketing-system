@@ -40,3 +40,35 @@ class RejectionReasonRequiredError(DomainException):
 
 class PaymentReferenceRequiredError(DomainException):
     pass
+
+
+class InvalidEventCapacityError(DomainException):
+    pass
+
+
+class EventCannotBePublishedError(DomainException):
+    pass
+
+
+class EventCannotBeCancelledError(DomainException):
+    pass
+
+
+class EventTicketCategoryQuotaExceededError(DomainException):
+    pass
+
+
+class EventTicketCategoryNotAllowedError(DomainException):
+    pass
+
+
+class InvalidTicketCategoryNameError(DomainException):
+    pass
+
+
+class InvalidTicketCategoryQuotaError(DomainException):
+    pass
+
+
+class BookingNotAllowedError(DomainException):
+    pass
