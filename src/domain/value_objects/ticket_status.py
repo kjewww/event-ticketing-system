@@ -1,8 +1,7 @@
 from enum import Enum
 
 class TicketStatus(Enum):
-    DRAFT = "Draft"
-    PUBLISHED = "Published"
-    CANCELLED = "Canceled"
-    COMPLETED = "Completed"
-
+    ACTIVE = "Active"
+    CHECKED_IN = "CheckedIn"
+    CANCELLED = "Cancelled"
+    REFUND_REQUIRED = "RefundRequired"
