@@ -1,14 +1,13 @@
-from datetime import datetime
 from uuid import uuid4
 
-from value_objects.date_range import DateRange
-from value_objects.event_status import EventStatus
+from src.domain.value_objects.date_range import DateRange
+from src.domain.value_objects.event_status import EventStatus
 
-from events.event_created import EventCreated
-from events.event_published import EventPublished
-from events.event_cancelled import EventCancelled
+from src.domain.events.event_created import EventCreated
+from src.domain.events.event_published import EventPublished
+from src.domain.events.event_cancelled import EventCancelled
 
-from entities.ticket_category import TicketCategory
+from src.domain.entities.ticket_category import TicketCategory
 
 class Event:
     def __init__(
@@ -38,7 +37,6 @@ class Event:
         
             
     def add_ticket_category(self, category: "TicketCategory"):
-            # Aturan Bisnis: Cek apakah penambahan kategori ini melebihi kapasitas event
             current_total_quota = sum(c.quota for c in self.ticket_categories)
             if current_total_quota + category.quota > self.capacity:
                 raise ValueError(f"Total quota ({current_total_quota + category.quota}) exceeds event capacity ({self.capacity})")
