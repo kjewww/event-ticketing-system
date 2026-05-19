@@ -8,3 +8,6 @@ class DateRange:
         
         self.start_date = start_date
         self.end_date = end_date
+
+    def contains(self, target_date: datetime) -> bool:
+        return self.start_date <= target_date <= self.end_date
