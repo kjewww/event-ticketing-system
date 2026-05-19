@@ -41,6 +41,7 @@ class RejectionReasonRequiredError(DomainException):
 class PaymentReferenceRequiredError(DomainException):
     pass
 
+
 class InvalidEventCapacityError(DomainException):
     pass
 
@@ -60,6 +61,7 @@ class EventTicketCategoryQuotaExceededError(DomainException):
 class EventTicketCategoryNotAllowedError(DomainException):
     pass
 
+
 class InvalidTicketCategoryNameError(DomainException):
     pass
 
@@ -67,8 +69,6 @@ class InvalidTicketCategoryNameError(DomainException):
 class InvalidTicketCategoryQuotaError(DomainException):
     pass
 
-class BookingNotAllowedError(DomainException):
-    pass
 
-class RefundNotAllowedError(DomainException):
+class BookingNotAllowedError(DomainException):
     pass
