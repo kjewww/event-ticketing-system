@@ -1,4 +1,3 @@
-from datetime import datetime
 from uuid import uuid4
 
 from src.domain.value_objects.date_range import DateRange
