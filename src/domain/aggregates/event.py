@@ -1,4 +1,4 @@
-from uuid import uuid4
+from uuid import UUID, uuid4
 
 from src.domain.value_objects.date_range import DateRange
 from src.domain.value_objects.event_status import EventStatus
@@ -18,6 +18,7 @@ from src.domain.exceptions.domain_exception import (
     EventTicketCategoryQuotaExceededError,
     InvalidEventCapacityError,
 )
+
 
 class Event:
     def __init__(
@@ -44,11 +45,6 @@ class Event:
         self.domain_events = [EventCreated(self.id)]
 
     def add_ticket_category(self, category: TicketCategory) -> None:
-        if self.status != EventStatus.DRAFT:
-            raise EventTicketCategoryNotAllowedError(
-                "Ticket category can only be added while event is still draft."
-            )
-
         current_total_quota = sum(
             category.quota for category in self.ticket_categories
         )
@@ -62,7 +58,7 @@ class Event:
 
         if category.sales_date_range.end_date > self.date_range.start_date:
             raise EventTicketCategoryNotAllowedError(
-                "Ticket sales period must end before event starts."
+                "Ticket sales period must end before or at the event start date."
             )
 
         self.ticket_categories.append(category)
@@ -133,18 +129,12 @@ class Event:
                 "Ticket category does not belong to this event."
             )
 
-        if not category.is_active:
-            raise EventTicketCategoryNotAllowedError(
-                "Ticket category is already disabled."
-            )
+        if category.is_active:
+            category.disable()
 
-        category.disable()
-
-        self.domain_events.append(
-            TicketCategoryDisabled(
-                event_id=self.id,
-                ticket_category_id=category.id,
+            self.domain_events.append(
+                TicketCategoryDisabled(
+                    event_id=self.id,
+                    ticket_category_id=category.id,
+                )
             )
-        )
-        
-        
