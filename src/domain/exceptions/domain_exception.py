@@ -41,6 +41,7 @@ class RejectionReasonRequiredError(DomainException):
 class PaymentReferenceRequiredError(DomainException):
     pass
 
+
 class InvalidEventCapacityError(DomainException):
     pass
 
