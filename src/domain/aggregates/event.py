@@ -44,7 +44,30 @@ class Event:
         self.capacity = capacity
         self.status = EventStatus.DRAFT
         self.ticket_categories: list[TicketCategory] = []
-        self.domain_events = [EventCreated(self.id)]
+        self.domain_events = [EventCreated(self.id, self.organizer_id)]
+        
+    # def create(
+    #     self,
+    #     organizer_id: UUID,
+    #     name: str,
+    #     description: str,
+    #     date_range: DateRange,
+    #     location: str,
+    #     capacity: int
+    # ):
+    #     if capacity <= 0:
+    #         raise InvalidEventCapacityError("Capacity must be greater than zero!")
+    #     self.organizer_id = organizer_id
+    #     self.id = uuid4()
+    #     self.name = name
+    #     self.description = description
+    #     self.date_range = date_range
+    #     self.location = location
+    #     self.capacity = capacity
+    #     self.status = EventStatus.DRAFT
+    #     self.ticket_categories = []
+    #     self.domain_events.append(EventCreated(self.id, self.organizer_id))
+    #     return Event
 
     def add_ticket_category(self, category: TicketCategory) -> None:
         current_total_quota = sum(
