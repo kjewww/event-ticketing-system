@@ -13,3 +13,15 @@ class TicketCategoryCreated:
 
         self.event_id = event_id
         self.ticket_category_id = ticket_category_id
+
+class TicketCategoryDisabled:
+    def __init__(
+        self,
+        event_id: UUID,
+        ticket_category_id: UUID,
+    ):
+        self.id = uuid4()
+        self.occurred_at = datetime.now(timezone.utc)
+
+        self.event_id = event_id
+        self.ticket_category_id = ticket_category_id
