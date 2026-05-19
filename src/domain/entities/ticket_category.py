@@ -1,5 +1,5 @@
-from value_objects.date_range import DateRange
-from value_objects.money import Money
+from src.domain.value_objects.date_range import DateRange
+from src.domain.value_objects.money import Money
 from uuid import uuid4
 
 
