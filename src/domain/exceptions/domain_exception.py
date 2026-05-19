@@ -66,7 +66,3 @@ class InvalidTicketCategoryNameError(DomainException):
 
 class InvalidTicketCategoryQuotaError(DomainException):
     pass
-
-
-class TicketCategoryAlreadyDisabledError(DomainException):
-    pass
