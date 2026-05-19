@@ -1,6 +1,10 @@
-from datetime import datetime
+from datetime import datetime, timezone
+from uuid import UUID, uuid4
+
 
 class EventCancelled:
-    def __init__(self, event_id):
+    def __init__(self, event_id: UUID):
+        self.id = uuid4()
+        self.occurred_at = datetime.now(timezone.utc)
+
         self.event_id = event_id
-        self.occurred_at = datetime.now()
