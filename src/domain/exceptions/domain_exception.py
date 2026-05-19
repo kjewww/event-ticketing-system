@@ -69,3 +69,6 @@ class InvalidTicketCategoryQuotaError(DomainException):
 
 class BookingNotAllowedError(DomainException):
     pass
+
+class RefundNotAllowedError(DomainException):
+    pass
