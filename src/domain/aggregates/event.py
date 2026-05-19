@@ -18,7 +18,7 @@ from src.domain.exceptions.domain_exception import (
     EventCannotBePublishedError, 
     EventCannotBeCancelledError, 
     EventTicketCategoryQuotaExceededError, 
-    TicketCategoryCannotBeDisabledError
+    EventTicketCategoryNotAllowedError,
 )
 
 class Event:
