@@ -1,6 +1,15 @@
-from datetime import datetime
+from datetime import datetime, timezone
+from uuid import UUID, uuid4
+
 
 class TicketCategoryDisabled:
-    def __init__(self, id):
-        self.id = id
-        self.occurred_at = datetime.now()
+    def __init__(
+        self,
+        event_id: UUID,
+        ticket_category_id: UUID,
+    ):
+        self.id = uuid4()
+        self.occurred_at = datetime.now(timezone.utc)
+
+        self.event_id = event_id
+        self.ticket_category_id = ticket_category_id
