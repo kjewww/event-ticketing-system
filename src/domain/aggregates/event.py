@@ -44,7 +44,12 @@ class Event:
         self.capacity = capacity
         self.status = EventStatus.DRAFT
         self.ticket_categories: list[TicketCategory] = []
-        self._domain_events = [EventCreated(self.id)]
+        self._domain_events = [
+            EventCreated(
+                event_id=self.id,
+                organizer_id=self.organizer_id,
+            )
+        ]
 
     def add_ticket_category(self, category: TicketCategory) -> None:
         new_total_quota = self.total_ticket_quota() + category.quota
