@@ -1,6 +1,6 @@
 from uuid import UUID
 
-class EventResponseDTO:
+class CreateEventResponseDTO:
     def __init__(
         self,
         id: UUID,
