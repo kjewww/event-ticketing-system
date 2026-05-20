@@ -1,15 +1,21 @@
-from datetime import datetime, date
+from datetime import date, datetime
+
 
 class DateRange:
-    def __init__(self, start_date: date, end_date: date):
-        if end_date < start_date:
+    def __init__(self, start_date: date | datetime, end_date: date | datetime):
+        self.start_date = self._to_date(start_date)
+        self.end_date = self._to_date(end_date)
+
+        if self.end_date < self.start_date:
             raise ValueError("End date cannot be earlier than start date.")
 
-        self.start_date = start_date
-        self.end_date = end_date
-
     def contains(self, target_date: date | datetime) -> bool:
-        if isinstance(target_date, datetime):
-            target_date = target_date.date()
-
+        target_date = self._to_date(target_date)
         return self.start_date <= target_date <= self.end_date
+
+    @staticmethod
+    def _to_date(value: date | datetime) -> date:
+        if isinstance(value, datetime):
+            return value.date()
+
+        return value

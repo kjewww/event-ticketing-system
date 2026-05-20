@@ -44,37 +44,10 @@ class Event:
         self.capacity = capacity
         self.status = EventStatus.DRAFT
         self.ticket_categories: list[TicketCategory] = []
-        self.domain_events = [EventCreated(self.id, self.organizer_id)]
-        
-    # def create(
-    #     self,
-    #     organizer_id: UUID,
-    #     name: str,
-    #     description: str,
-    #     date_range: DateRange,
-    #     location: str,
-    #     capacity: int
-    # ):
-    #     if capacity <= 0:
-    #         raise InvalidEventCapacityError("Capacity must be greater than zero!")
-    #     self.organizer_id = organizer_id
-    #     self.id = uuid4()
-    #     self.name = name
-    #     self.description = description
-    #     self.date_range = date_range
-    #     self.location = location
-    #     self.capacity = capacity
-    #     self.status = EventStatus.DRAFT
-    #     self.ticket_categories = []
-    #     self.domain_events.append(EventCreated(self.id, self.organizer_id))
-    #     return Event
+        self._domain_events = [EventCreated(self.id)]
 
     def add_ticket_category(self, category: TicketCategory) -> None:
-        current_total_quota = sum(
-            category.quota for category in self.ticket_categories
-        )
-
-        new_total_quota = current_total_quota + category.quota
+        new_total_quota = self.total_ticket_quota() + category.quota
 
         if new_total_quota > self.capacity:
             raise EventTicketCategoryQuotaExceededError(
@@ -88,7 +61,7 @@ class Event:
 
         self.ticket_categories.append(category)
 
-        self.domain_events.append(
+        self._domain_events.append(
             TicketCategoryCreated(
                 event_id=self.id,
                 ticket_category_id=category.id,
@@ -101,19 +74,18 @@ class Event:
                 "Only draft event can be published."
             )
 
-        active_categories = [
-            category
-            for category in self.ticket_categories
-            if category.is_active
-        ]
-
-        if not active_categories:
+        if not self.has_active_ticket_category():
             raise EventCannotBePublishedError(
                 "Event must have at least one active ticket category."
             )
 
+        if self.total_ticket_quota() > self.capacity:
+            raise EventCannotBePublishedError(
+                "Total ticket quota cannot exceed event capacity."
+            )
+
         self.status = EventStatus.PUBLISHED
-        self.domain_events.append(EventPublished(self.id))
+        self._domain_events.append(EventPublished(self.id))
 
     def cancel(self) -> None:
         if self.status != EventStatus.PUBLISHED:
@@ -124,7 +96,7 @@ class Event:
         for category in self.ticket_categories:
             if category.is_active:
                 category.disable()
-                self.domain_events.append(
+                self._domain_events.append(
                     TicketCategoryDisabled(
                         event_id=self.id,
                         ticket_category_id=category.id,
@@ -132,7 +104,7 @@ class Event:
                 )
 
         self.status = EventStatus.CANCELLED
-        self.domain_events.append(EventCancelled(self.id))
+        self._domain_events.append(EventCancelled(self.id))
 
     def disable_ticket_category(self, ticket_category_id: UUID) -> None:
         if self.status == EventStatus.COMPLETED:
@@ -140,14 +112,7 @@ class Event:
                 "Ticket category cannot be disabled on completed event."
             )
 
-        category = next(
-            (
-                category
-                for category in self.ticket_categories
-                if category.id == ticket_category_id
-            ),
-            None,
-        )
+        category = self.get_ticket_category_by_id(ticket_category_id)
 
         if category is None:
             raise EventTicketCategoryNotAllowedError(
@@ -157,9 +122,32 @@ class Event:
         if category.is_active:
             category.disable()
 
-            self.domain_events.append(
+            self._domain_events.append(
                 TicketCategoryDisabled(
                     event_id=self.id,
                     ticket_category_id=category.id,
                 )
             )
+
+    def get_ticket_category_by_id(
+        self,
+        ticket_category_id: UUID,
+    ) -> TicketCategory | None:
+        for category in self.ticket_categories:
+            if category.id == ticket_category_id:
+                return category
+
+        return None
+
+    def total_ticket_quota(self) -> int:
+        return sum(category.quota for category in self.ticket_categories)
+
+    def has_active_ticket_category(self) -> bool:
+        return any(category.is_active for category in self.ticket_categories)
+
+    @property
+    def domain_events(self):
+        return list(self._domain_events)
+
+    def clear_domain_events(self) -> None:
+        self._domain_events.clear()
