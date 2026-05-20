@@ -20,3 +20,27 @@ class CreateEventResponseDTO:
         self.location = location
         self.capacity = capacity
         self.status = status
+
+
+class PublishEventResponseDTO:
+    def __init__(
+        self,
+        event_id,
+        name,
+        status,
+    ):
+        self.event_id = event_id
+        self.name = name
+        self.status = status
+
+
+class CancelEventResponseDTO:
+    def __init__(
+        self,
+        event_id,
+        name,
+        status,
+    ):
+        self.event_id = event_id
+        self.name = name
+        self.status = status
