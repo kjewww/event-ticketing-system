@@ -1,24 +1,27 @@
 from uuid import UUID
+from src.domain.value_objects.date_range import DateRange
+from src.domain.value_objects.event_status import EventStatus
+from datetime import datetime
 
-class CreateEventResponseDTO:
+class EventResponseDTO:
     def __init__(
         self,
-        id: UUID,
+        event_id: UUID,
         organizer_id: UUID,
         name: str,
         description: str,
-        date_range: dict,
+        start_date: datetime,
+        end_date: datetime,
         location: str,
         capacity: int,
-        status: str,
-        ticket_categories: list[dict]
+        status: EventStatus,
     ):
-        self.id = id
+        self.event_id = event_id
         self.organizer_id = organizer_id
         self.name = name
         self.description = description
-        self.date_range = date_range
+        self.start_date = start_date
+        self.end_date = end_date
         self.location = location
         self.capacity = capacity
         self.status = status
-        self.ticket_categories = ticket_categories
