@@ -2,37 +2,39 @@ from uuid import UUID, uuid4
 
 from src.domain.value_objects.date_range import DateRange
 from src.domain.value_objects.event_status import EventStatus
-
-from src.domain.events.event_created import EventCreated
-from src.domain.events.event_published import EventPublished
-from src.domain.events.event_cancelled import EventCancelled
-from src.domain.events.ticket_category_created import TicketCategoryCreated
-from src.domain.events.ticket_category_disabled import TicketCategoryDisabled
-
 from src.domain.entities.ticket_category import TicketCategory
 
-from src.domain.exceptions.domain_exception import (
-    EventCannotBeCancelledError,
-    EventCannotBePublishedError,
-    EventTicketCategoryNotAllowedError,
-    EventTicketCategoryQuotaExceededError,
-    InvalidEventCapacityError,
+from src.domain.events.event_events import (
+    EventCreated, 
+    EventCancelled, 
+    EventPublished
 )
-
+from src.domain.events.ticket_category_events import (
+    TicketCategoryCreated, 
+    TicketCategoryDisabled
+)
+from src.domain.exceptions.domain_exception import (
+    InvalidEventCapacityError, 
+    EventCannotBePublishedError, 
+    EventCannotBeCancelledError, 
+    EventTicketCategoryQuotaExceededError, 
+    EventTicketCategoryNotAllowedError,
+)
 
 class Event:
     def __init__(
-        self,
-        organizer_id: str,
-        name: str,
-        description: str,
+        self, 
+        organizer_id: UUID,
+        name: str, 
+        description: str, 
         date_range: DateRange,
         location: str,
-        capacity: int,
+        capacity: int
     ):
-        if capacity <= 0:
-            raise InvalidEventCapacityError("Capacity must be greater than zero.")
 
+        if capacity <= 0:
+            raise InvalidEventCapacityError("Capacity must be greater than zero!")
+        
         self.organizer_id = organizer_id
         self.id = uuid4()
         self.name = name

@@ -5,9 +5,14 @@ import pytest
 
 from src.domain.aggregates.event import Event
 from src.domain.entities.ticket_category import TicketCategory
-from src.domain.events.event_created import EventCreated
-from src.domain.events.event_published import EventPublished
-from src.domain.events.ticket_category_created import TicketCategoryCreated
+from src.domain.events.event_events import (
+    EventCreated,
+    EventPublished,
+)
+from src.domain.events.ticket_category_events import (
+    TicketCategoryCreated,
+    TicketCategoryDisabled,
+)
 from src.domain.exceptions.domain_exception import (
     EventCannotBePublishedError,
     EventTicketCategoryQuotaExceededError,

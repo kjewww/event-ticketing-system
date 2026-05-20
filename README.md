@@ -32,7 +32,7 @@ event-ticketing-system
 │   └───presentation
 │       ├───main.py
 │       └───api
-└───test
+└───tests
     └───domain
 ```
 
