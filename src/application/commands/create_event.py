@@ -1,7 +1,7 @@
 from uuid import UUID
 from src.domain.aggregates.event import Event
 from src.domain.repositories.event_repository import EventRepository
-from src.application.dto.event_response_dto import EventResponseDTO
+from src.application.dto.event_dto import CreateEventResponseDTO
 
 class CreateEventCommand:
     def __init__(
@@ -24,7 +24,7 @@ class CreateEventHandler:
     def __init__(self, event_repository: EventRepository):
         self.event_repository = event_repository
 
-    def handle(self, command: CreateEventCommand) -> EventResponseDTO:
+    def handle(self, command: CreateEventCommand) -> CreateEventResponseDTO:
         event = Event(
             organizer_id=command.organizer_id,
             name=command.name,
@@ -35,7 +35,7 @@ class CreateEventHandler:
         )
         self.event_repository.save(event)
         
-        return EventResponseDTO(
+        return CreateEventResponseDTO(
             id=event.id,
             organizer_id=event.organizer_id,
             name=event.name,
