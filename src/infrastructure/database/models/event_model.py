@@ -1,10 +1,8 @@
 from sqlalchemy.orm import declarative_base, relationship, mapped_column, Mapped
 from sqlalchemy import Integer, String, Boolean, ForeignKey, Date, Enum
-from database import engine
 from datetime import date, datetime
 from src.domain.value_objects.event_status import EventStatus
-
-Base = declarative_base()
+from database import Base
 
 class EventModel(Base):
     __tablename__ = 'events'
@@ -42,5 +40,3 @@ class TicketCategoryModel(Base):
         "EventModel", 
         back_populates="ticket_categories"
     )
-
-Base.metadata.create_all(bind=engine)
