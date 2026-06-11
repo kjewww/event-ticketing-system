@@ -7,6 +7,11 @@ class Money:
         amount: Decimal,
         currency: str = "IDR"
     ):
+        if not isinstance(amount, Decimal):
+            amount = Decimal(str(amount))
+
+        if not currency or not currency.strip():
+            raise ValueError("Currency cannot be empty.")
         
         if amount < 0:
             raise ValueError("Amount cannot be negative.")
@@ -14,7 +19,9 @@ class Money:
         self.amount = amount
         self.currency = currency
         
-    def add(self, other):
+    def add(self, other: "Money") -> "Money":
+        if not isinstance(other, Money):
+            raise TypeError("Can only add Money to Money.")
 
         if self.currency != other.currency:
             raise ValueError(
@@ -26,7 +33,9 @@ class Money:
             self.currency
         )
         
-    def multiply(self, quantity: int):
+    def multiply(self, quantity: int) -> "Money":
+        if quantity < 0:
+            raise ValueError("Quantity cannot be negative.")
 
         return Money(
             self.amount * quantity,
@@ -35,6 +44,8 @@ class Money:
         
 
     def __eq__(self, other):
+        if not isinstance(other, Money):
+            return False
 
         return (
             self.amount == other.amount
@@ -42,4 +53,6 @@ class Money:
             self.currency == other.currency
         )
     
+    def __repr__(self):
+        return f"Money(amount={self.amount!r}, currency={self.currency!r})"
     
