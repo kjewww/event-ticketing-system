@@ -22,7 +22,7 @@ class SqlAlchemyEventReadRepository(EventReadRepository):
 
     def find_available_events(
         self,
-        date: Date | datetime | None = None,
+        date_filter: Date | datetime | None = None,
         location: str | None = None,
     ) -> list[AvailableEventDTO]:
         lowest_price = func.min(TicketCategoryModel.price_amount).label(
@@ -54,10 +54,14 @@ class SqlAlchemyEventReadRepository(EventReadRepository):
             .order_by(EventModel.start_date.asc())
         )
 
-        if date is not None:
-            date_filter = date.date() if isinstance(date, datetime) else date
-            query = query.filter(EventModel.start_date <= date_filter)
-            query = query.filter(EventModel.end_date >= date_filter)
+        if date_filter is not None:
+            selected_date = (
+                date_filter.date()
+                if isinstance(date_filter, datetime)
+                else date_filter
+            )
+            query = query.filter(EventModel.start_date <= selected_date)
+            query = query.filter(EventModel.end_date >= selected_date)
 
         if location:
             query = query.filter(EventModel.location.ilike(f"%{location}%"))

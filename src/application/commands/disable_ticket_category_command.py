@@ -5,7 +5,7 @@ class DisableTicketCategoryCommand:
     def __init__(
         self,
         event_id: UUID,
-        organizer_id: str,
+        organizer_id: UUID,
         ticket_category_id: UUID,
     ):
         self.event_id = event_id
