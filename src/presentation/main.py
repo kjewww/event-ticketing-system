@@ -3,7 +3,12 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from src.infrastructure.database import create_tables
-from src.presentation.api import booking_router, event_router, ticket_category_router
+from src.presentation.api import (
+    booking_router,
+    event_router,
+    ticket_category_router,
+    ticket_router,
+)
 
 
 @asynccontextmanager
@@ -30,3 +35,4 @@ def root():
 app.include_router(event_router)
 app.include_router(ticket_category_router)
 app.include_router(booking_router)
+app.include_router(ticket_router)

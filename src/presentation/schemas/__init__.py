@@ -21,6 +21,11 @@ from src.presentation.schemas.ticket_category_schemas import (
     DisableTicketCategoryResponse,
     TicketCategoryResponse,
 )
+from src.presentation.schemas.ticket_schemas import (
+    CheckInTicketRequest,
+    CheckInTicketResponse,
+    PurchasedTicketResponse,
+)
 
 __all__ = [
     "CreateEventRequest",
@@ -40,4 +45,7 @@ __all__ = [
     "PayBookingResponse",
     "ExpireBookingRequest",
     "ExpireBookingResponse",
+    "PurchasedTicketResponse",
+    "CheckInTicketRequest",
+    "CheckInTicketResponse",
 ]
