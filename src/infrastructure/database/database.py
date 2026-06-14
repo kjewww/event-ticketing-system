@@ -11,7 +11,11 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 if DATABASE_URL is None:
     raise RuntimeError("DATABASE_URL is not set in .env")
 
-engine = create_engine(DATABASE_URL)
+engine = create_engine(
+    DATABASE_URL,
+    echo=False,
+    future=True,
+)
 
 SessionLocal = sessionmaker(
     autocommit=False,
@@ -21,9 +25,16 @@ SessionLocal = sessionmaker(
 
 Base = declarative_base()
 
+
 def get_db():
     db = SessionLocal()
     try:
         yield db
     finally:
         db.close()
+
+
+def create_tables() -> None:
+    from src.infrastructure.database import models  # noqa: F401
+
+    Base.metadata.create_all(bind=engine)
