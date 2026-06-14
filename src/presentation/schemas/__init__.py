@@ -36,6 +36,12 @@ from src.presentation.schemas.refund_schemas import (
     RequestRefundRequest,
     RequestRefundResponse,
 )
+from src.presentation.schemas.report_schemas import (
+    BookingStatusCountResponse,
+    EventParticipantResponse,
+    EventSalesReportResponse,
+    TicketCategorySalesResponse,
+)
 
 __all__ = [
     "CreateEventRequest",
@@ -66,4 +72,8 @@ __all__ = [
     "RejectRefundResponse",
     "MarkRefundPaidOutRequest",
     "MarkRefundPaidOutResponse",
+    "TicketCategorySalesResponse",
+    "BookingStatusCountResponse",
+    "EventSalesReportResponse",
+    "EventParticipantResponse",
 ]

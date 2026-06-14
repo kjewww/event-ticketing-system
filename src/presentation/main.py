@@ -7,6 +7,7 @@ from src.presentation.api import (
     booking_router,
     event_router,
     refund_router,
+    report_router,
     ticket_category_router,
     ticket_router,
 )
@@ -38,3 +39,4 @@ app.include_router(ticket_category_router)
 app.include_router(booking_router)
 app.include_router(ticket_router)
 app.include_router(refund_router)
+app.include_router(report_router)
