@@ -1,3 +1,11 @@
+from src.presentation.schemas.booking_schemas import (
+    CreateBookingRequest,
+    CreateBookingResponse,
+    ExpireBookingRequest,
+    ExpireBookingResponse,
+    PayBookingRequest,
+    PayBookingResponse,
+)
 from src.presentation.schemas.event_schemas import (
     AvailableEventResponse,
     CreateEventRequest,
@@ -26,4 +34,10 @@ __all__ = [
     "TicketCategoryResponse",
     "DisableTicketCategoryRequest",
     "DisableTicketCategoryResponse",
+    "CreateBookingRequest",
+    "CreateBookingResponse",
+    "PayBookingRequest",
+    "PayBookingResponse",
+    "ExpireBookingRequest",
+    "ExpireBookingResponse",
 ]
