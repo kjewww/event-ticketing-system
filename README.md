@@ -81,9 +81,7 @@ event-management-system/
 ├── docs/
 │   ├── api_documentation.md
 │   ├── aggregates_and_business_rules.md
-│   ├── clean_architecture.puml
 │   ├── clean_architecture_diagram.svg
-│   ├── domain_model.puml
 │   ├── domain_model_diagram.svg
 │   └── ubiquitous_language_glossary.md
 ├── src/
@@ -414,4 +412,5 @@ docs/aggregate_business_rules.md
 
 ## Notes
 
-This project uses simulated external service adapters instead of real payment, bank, or notification integrations. The interfaces are defined in the application layer, while the implementations are placed in the infrastructure layer.
+- This project uses simulated external service adapters instead of real payment, bank, or notification integrations. The interfaces are defined in the application layer, while the implementations are placed in the infrastructure layer.
+- Additional documentation and diagrams may be found in the "docs" folder
