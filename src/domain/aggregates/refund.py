@@ -35,7 +35,7 @@ class Refund:
         self.status = status
         self.rejection_reason = rejection_reason
         self.payment_reference = payment_reference
-        self._domain_events = []
+        self._domain_events: list[object] = []
 
     @classmethod
     def request(
@@ -64,6 +64,29 @@ class Refund:
         )
 
         return refund
+
+    @classmethod
+    def reconstruct(
+        cls,
+        id: UUID,
+        booking_id: UUID,
+        customer_id: UUID,
+        amount: Money,
+        reason: str | None,
+        status: RefundStatus,
+        rejection_reason: str | None = None,
+        payment_reference: str | None = None,
+    ) -> "Refund":
+        return cls(
+            id=id,
+            booking_id=booking_id,
+            customer_id=customer_id,
+            amount=amount,
+            reason=reason,
+            status=status,
+            rejection_reason=rejection_reason,
+            payment_reference=payment_reference,
+        )
 
     def approve(self) -> None:
         if self.status != RefundStatus.REQUESTED:

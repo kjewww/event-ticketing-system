@@ -23,7 +23,7 @@ class CreateEventCommandHandler:
                 end_date=command.end_date,
             )
 
-            event = Event(
+            event = Event.create(
                 organizer_id=command.organizer_id,
                 name=command.name,
                 description=command.description,

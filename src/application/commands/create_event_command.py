@@ -1,10 +1,11 @@
 from datetime import date, datetime
+from uuid import UUID
 
 
 class CreateEventCommand:
     def __init__(
         self,
-        organizer_id: str,
+        organizer_id: UUID,
         name: str,
         description: str,
         start_date: date | datetime,

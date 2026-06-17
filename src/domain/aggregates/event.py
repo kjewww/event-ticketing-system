@@ -29,27 +29,81 @@ class Event:
         description: str, 
         date_range: DateRange,
         location: str,
-        capacity: int
+        capacity: int,
+        id: UUID | None = None,
+        status: EventStatus = EventStatus.DRAFT,
+        ticket_categories: list[TicketCategory] | None = None,
+        raise_event: bool = True,
     ):
 
         if capacity <= 0:
             raise InvalidEventCapacityError("Capacity must be greater than zero!")
         
         self.organizer_id = organizer_id
-        self.id = uuid4()
+        self.id = id or uuid4()
         self.name = name
         self.description = description
         self.date_range = date_range
         self.location = location
         self.capacity = capacity
-        self.status = EventStatus.DRAFT
-        self.ticket_categories: list[TicketCategory] = []
-        self._domain_events = [
-            EventCreated(
-                event_id=self.id,
-                organizer_id=self.organizer_id,
+        self.status = status
+        self.ticket_categories: list[TicketCategory] = ticket_categories or []
+        self._domain_events = []
+
+        if raise_event:
+            self._domain_events.append(
+                EventCreated(
+                    event_id=self.id,
+                    organizer_id=self.organizer_id,
+                )
             )
-        ]
+
+    @classmethod
+    def create(
+        cls,
+        organizer_id: UUID,
+        name: str,
+        description: str,
+        date_range: DateRange,
+        location: str,
+        capacity: int,
+    ) -> "Event":
+        return cls(
+            organizer_id=organizer_id,
+            name=name,
+            description=description,
+            date_range=date_range,
+            location=location,
+            capacity=capacity,
+            status=EventStatus.DRAFT,
+            raise_event=True,
+        )
+
+    @classmethod
+    def reconstruct(
+        cls,
+        id: UUID,
+        organizer_id: UUID,
+        name: str,
+        description: str,
+        date_range: DateRange,
+        location: str,
+        capacity: int,
+        status: EventStatus,
+        ticket_categories: list[TicketCategory] | None = None,
+    ) -> "Event":
+        return cls(
+            id=id,
+            organizer_id=organizer_id,
+            name=name,
+            description=description,
+            date_range=date_range,
+            location=location,
+            capacity=capacity,
+            status=status,
+            ticket_categories=ticket_categories,
+            raise_event=False,
+        )
 
     def add_ticket_category(self, category: TicketCategory) -> None:
         new_total_quota = self.total_ticket_quota() + category.quota

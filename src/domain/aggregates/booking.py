@@ -30,6 +30,7 @@ class Booking:
         quantity: int,
         unit_price: Money,
         payment_deadline: PaymentDeadline,
+        customer_name: str = "",
         service_fee: Money | None = None,
         status: BookingStatus = BookingStatus.PENDING_PAYMENT,
         refund_required: bool = False,
@@ -40,6 +41,7 @@ class Booking:
 
         self.id = id
         self.customer_id = customer_id
+        self.customer_name = customer_name
         self.event_id = event_id
         self.ticket_category_id = ticket_category_id
         self.quantity = quantity
@@ -50,7 +52,7 @@ class Booking:
         self.status = status
         self.refund_required = refund_required
         self.tickets = tickets or []
-        self._domain_events = []
+        self._domain_events: list[object] = []
 
     @classmethod
     def create(
@@ -61,11 +63,13 @@ class Booking:
         quantity: int,
         unit_price: Money,
         payment_deadline: PaymentDeadline,
+        customer_name: str = "",
         service_fee: Money | None = None,
     ) -> "Booking":
         booking = cls(
             id=uuid4(),
             customer_id=customer_id,
+            customer_name=customer_name,
             event_id=event_id,
             ticket_category_id=ticket_category_id,
             quantity=quantity,
@@ -86,6 +90,37 @@ class Booking:
         )
 
         return booking
+
+    @classmethod
+    def reconstruct(
+        cls,
+        id: UUID,
+        customer_id: UUID,
+        customer_name: str,
+        event_id: UUID,
+        ticket_category_id: UUID,
+        quantity: int,
+        unit_price: Money,
+        payment_deadline: PaymentDeadline,
+        service_fee: Money | None,
+        status: BookingStatus,
+        refund_required: bool,
+        tickets: list[Ticket] | None = None,
+    ) -> "Booking":
+        return cls(
+            id=id,
+            customer_id=customer_id,
+            customer_name=customer_name,
+            event_id=event_id,
+            ticket_category_id=ticket_category_id,
+            quantity=quantity,
+            unit_price=unit_price,
+            payment_deadline=payment_deadline,
+            service_fee=service_fee,
+            status=status,
+            refund_required=refund_required,
+            tickets=tickets,
+        )
 
     def calculate_total_price(self) -> Money:
         ticket_total = self.unit_price.multiply(self.quantity)
@@ -181,6 +216,12 @@ class Booking:
 
     def has_checked_in_ticket(self) -> bool:
         return any(ticket.is_checked_in() for ticket in self.tickets)
+
+    def is_active_booking(self) -> bool:
+        return self.status in [
+            BookingStatus.PENDING_PAYMENT,
+            BookingStatus.PAID,
+        ]
 
     def get_ticket_by_code(self, ticket_code: TicketCode) -> Ticket | None:
         for ticket in self.tickets:

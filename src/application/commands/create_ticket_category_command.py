@@ -7,7 +7,7 @@ class CreateTicketCategoryCommand:
     def __init__(
         self,
         event_id: UUID,
-        organizer_id: str,
+        organizer_id: UUID,
         name: str,
         price_amount: Decimal,
         quota: int,

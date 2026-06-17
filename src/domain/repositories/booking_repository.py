@@ -2,11 +2,16 @@ from abc import ABC, abstractmethod
 from uuid import UUID
 
 from src.domain.aggregates.booking import Booking
+from src.domain.value_objects.ticket_code import TicketCode
 
 
 class BookingRepository(ABC):
     @abstractmethod
     def get_by_id(self, booking_id: UUID) -> Booking | None:
+        pass
+
+    @abstractmethod
+    def get_by_ticket_code(self, ticket_code: TicketCode) -> Booking | None:
         pass
 
     @abstractmethod
@@ -26,4 +31,18 @@ class BookingRepository(ABC):
         self,
         event_id: UUID,
     ) -> list[Booking]:
+        pass
+
+    @abstractmethod
+    def get_by_customer_id(
+        self,
+        customer_id: UUID,
+    ) -> list[Booking]:
+        pass
+
+    @abstractmethod
+    def count_reserved_or_sold_quantity(
+        self,
+        ticket_category_id: UUID,
+    ) -> int:
         pass
